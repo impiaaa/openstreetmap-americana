@@ -24,10 +24,6 @@ SELECT (ST_Dump(geometry)).geom AS geometry,
        is_tunnel,
        is_ford,
        z_order,
-       bicycle,
-       foot,
-       horse,
-       mtb_scale,
        layer
 FROM (
          SELECT ST_LineMerge(ST_Collect(geometry)) AS geometry,
@@ -37,14 +33,10 @@ FROM (
                 is_tunnel,
                 is_ford,
                 min(z_order) AS z_order,
-                bicycle,
-                foot,
-                horse,
-                mtb_scale,
                 layer
          FROM osm_highway_linestring_gen_z11
          WHERE ST_IsValid(geometry)
-         GROUP BY highway, construction, is_bridge, is_tunnel, is_ford, bicycle, foot, horse, mtb_scale, layer
+         GROUP BY highway, construction, is_bridge, is_tunnel, is_ford, layer
      ) AS highway_union
     ) /* DELAY_MATERIALIZED_VIEW_CREATION */;
 CREATE INDEX IF NOT EXISTS osm_transportation_merge_linestring_gen_z11_geometry_idx
@@ -62,13 +54,9 @@ SELECT ST_Simplify(geometry, ZRes(12)) AS geometry,
        is_tunnel,
        is_ford,
        z_order,
-       bicycle,
-       foot,
-       horse,
-       mtb_scale,
        layer
 FROM osm_transportation_merge_linestring_gen_z11
-WHERE highway NOT IN ('tertiary', 'tertiary_link') 
+WHERE highway NOT IN ('tertiary', 'tertiary_link')
       OR highway = 'construction' AND construction NOT IN ('tertiary', 'tertiary_link')
     ) /* DELAY_MATERIALIZED_VIEW_CREATION */;
 CREATE INDEX IF NOT EXISTS osm_transportation_merge_linestring_gen_z10_geometry_idx
@@ -86,10 +74,6 @@ SELECT ST_Simplify(geometry, ZRes(11)) AS geometry,
        is_tunnel,
        is_ford,
        z_order,
-       bicycle,
-       foot,
-       horse,
-       mtb_scale,
        layer
 FROM osm_transportation_merge_linestring_gen_z10
 WHERE highway NOT IN ('tertiary', 'tertiary_link') 

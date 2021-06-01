@@ -22,10 +22,6 @@ CREATE OR REPLACE FUNCTION layer_transportation(bbox geometry, zoom_level int)
                 layer     int,
                 level     int,
                 indoor    int,
-                bicycle   text,
-                foot      text,
-                horse     text,
-                mtb_scale text,
                 surface   text
             )
 AS
@@ -35,13 +31,11 @@ SELECT osm_id,
        CASE
            WHEN NULLIF(highway, '') IS NOT NULL OR NULLIF(public_transport, '') IS NOT NULL
                THEN highway_class(highway, public_transport, construction)
-           WHEN NULLIF(railway, '') IS NOT NULL THEN railway_class(railway)
            WHEN NULLIF(aerialway, '') IS NOT NULL THEN 'aerialway'
            WHEN NULLIF(shipway, '') IS NOT NULL THEN shipway
            WHEN NULLIF(man_made, '') IS NOT NULL THEN man_made
            END AS class,
        CASE
-           WHEN railway IS NOT NULL THEN railway
            WHEN (highway IS NOT NULL OR public_transport IS NOT NULL)
                AND highway_class(highway, public_transport, construction) = 'path'
                THEN COALESCE(NULLIF(public_transport, ''), highway)
@@ -58,10 +52,6 @@ SELECT osm_id,
        NULLIF(layer, 0) AS layer,
        "level",
        CASE WHEN indoor = TRUE THEN 1 END AS indoor,
-       NULLIF(bicycle, '') AS bicycle,
-       NULLIF(foot, '') AS foot,
-       NULLIF(horse, '') AS horse,
-       NULLIF(mtb_scale, '') AS mtb_scale,
        NULLIF(surface, '') AS surface
 FROM (
          -- etldoc: osm_transportation_merge_linestring_gen_z4 -> layer_transportation:z4
@@ -83,10 +73,6 @@ FROM (
                 NULL::int AS layer,
                 NULL::int AS level,
                 NULL::boolean AS indoor,
-                NULL AS bicycle,
-                NULL AS foot,
-                NULL AS horse,
-                NULL AS mtb_scale,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z4
@@ -112,10 +98,6 @@ FROM (
                 NULL::int AS layer,
                 NULL::int AS level,
                 NULL::boolean AS indoor,
-                NULL AS bicycle,
-                NULL AS foot,
-                NULL AS horse,
-                NULL AS mtb_scale,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z5
@@ -141,10 +123,6 @@ FROM (
                 NULL::int AS layer,
                 NULL::int AS level,
                 NULL::boolean AS indoor,
-                NULL AS bicycle,
-                NULL AS foot,
-                NULL AS horse,
-                NULL AS mtb_scale,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z6
@@ -170,10 +148,6 @@ FROM (
                 NULL::int AS layer,
                 NULL::int AS level,
                 NULL::boolean AS indoor,
-                NULL AS bicycle,
-                NULL AS foot,
-                NULL AS horse,
-                NULL AS mtb_scale,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z7
@@ -199,10 +173,6 @@ FROM (
                 NULL::int AS layer,
                 NULL::int AS level,
                 NULL::boolean AS indoor,
-                NULL AS bicycle,
-                NULL AS foot,
-                NULL AS horse,
-                NULL AS mtb_scale,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z8
@@ -228,10 +198,6 @@ FROM (
                 layer,
                 NULL::int AS level,
                 NULL::boolean AS indoor,
-                bicycle,
-                foot,
-                horse,
-                mtb_scale,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z9
@@ -257,10 +223,6 @@ FROM (
                 layer,
                 NULL::int AS level,
                 NULL::boolean AS indoor,
-                bicycle,
-                foot,
-                horse,
-                mtb_scale,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z10
@@ -286,10 +248,6 @@ FROM (
                 layer,
                 NULL::int AS level,
                 NULL::boolean AS indoor,
-                bicycle,
-                foot,
-                horse,
-                mtb_scale,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z11
@@ -317,10 +275,6 @@ FROM (
                 layer,
                 CASE WHEN highway IN ('footway', 'steps') THEN "level" END AS "level",
                 CASE WHEN highway IN ('footway', 'steps') THEN indoor END AS indoor,
-                bicycle,
-                foot,
-                horse,
-                mtb_scale,
                 surface_value(surface) AS "surface",
                 z_order
          FROM osm_highway_linestring

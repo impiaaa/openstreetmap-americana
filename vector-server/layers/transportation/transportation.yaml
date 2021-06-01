@@ -1,8 +1,7 @@
 layer:
   id: "transportation"
   description: |
-      **transportation** contains roads, railways, aerial ways, and shipping
-       lines.
+      **transportation** contains road lines.
       This layer is directly derived from the OSM road hierarchy.
       At lower zoom levels major highways from Natural Earth are used.
       It contains all roads from motorways to primary, secondary and
@@ -18,8 +17,6 @@ layer:
           Class is derived from the value of the
           [`highway`](http://wiki.openstreetmap.org/wiki/Key:highway),
           [`construction`](http://wiki.openstreetmap.org/wiki/Key:construction),
-          [`railway`](http://wiki.openstreetmap.org/wiki/Key:railway),
-          [`aerialway`](http://wiki.openstreetmap.org/wiki/Key:aerialway),
           [`route`](http://wiki.openstreetmap.org/wiki/Key:route) tag (for
           shipping ways), or
           [`man_made`](http://wiki.openstreetmap.org/wiki/Key:route).
@@ -153,18 +150,6 @@ layer:
           value of the [`indoor`](http://wiki.openstreetmap.org/wiki/Key:indoor) tag.
       values:
       - 1
-    bicycle:
-      description: |
-          Original value of the [`bicycle`](http://wiki.openstreetmap.org/wiki/Key:bicycle) tag (highways only).
-    foot:
-      description: |
-          Original value of the [`foot`](http://wiki.openstreetmap.org/wiki/Key:foot) tag (highways only).
-    horse:
-      description: |
-          Original value of the [`horse`](http://wiki.openstreetmap.org/wiki/Key:horse) tag (highways only).
-    mtb_scale:
-      description: |
-          Original value of the [`mtb:scale`](http://wiki.openstreetmap.org/wiki/Key:mtb:scale) tag (highways only).
     surface:
       description: |
           Values of [`surface`](https://wiki.openstreetmap.org/wiki/Key:surface) tag devided into 2 groups `paved` (paved, asphalt, cobblestone, concrete, concrete:lanes, concrete:plates, metal, paving_stones, sett, unhewn_cobblestone, wood) and `unpaved` (unpaved, compacted, dirt, earth, fine_gravel, grass, grass_paver, gravel, gravel_turf, ground, ice, mud, pebblestone, salt, sand, snow, woodchips).
@@ -174,7 +159,7 @@ layer:
   datasource:
     geometry_field: geometry
     srid: 900913
-    query: (SELECT geometry, class, subclass, oneway, ramp, brunnel, service, layer, level, indoor, bicycle, foot, horse, mtb_scale, surface FROM layer_transportation(!bbox!, z(!scale_denominator!))) AS t
+    query: (SELECT geometry, class, subclass, oneway, ramp, brunnel, service, layer, level, indoor, surface FROM layer_transportation(!bbox!, z(!scale_denominator!))) AS t
 schema:
   - ./class.sql
   - ./update_transportation_merge.sql
