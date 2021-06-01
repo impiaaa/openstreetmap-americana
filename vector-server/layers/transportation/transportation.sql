@@ -31,15 +31,11 @@ SELECT osm_id,
        CASE
            WHEN NULLIF(highway, '') IS NOT NULL OR NULLIF(public_transport, '') IS NOT NULL
                THEN highway_class(highway, public_transport, construction)
-           WHEN NULLIF(aerialway, '') IS NOT NULL THEN 'aerialway'
-           WHEN NULLIF(shipway, '') IS NOT NULL THEN shipway
-           WHEN NULLIF(man_made, '') IS NOT NULL THEN man_made
            END AS class,
        CASE
            WHEN (highway IS NOT NULL OR public_transport IS NOT NULL)
                AND highway_class(highway, public_transport, construction) = 'path'
                THEN COALESCE(NULLIF(public_transport, ''), highway)
-           WHEN aerialway IS NOT NULL THEN aerialway
            END AS subclass,
        -- All links are considered as ramps as well
        CASE
@@ -59,9 +55,6 @@ FROM (
                 geometry,
                 highway,
                 construction,
-                NULL AS railway,
-                NULL AS aerialway,
-                NULL AS shipway,
                 NULL AS public_transport,
                 NULL AS service,
                 is_bridge,
@@ -84,9 +77,6 @@ FROM (
                 geometry,
                 highway,
                 construction,
-                NULL AS railway,
-                NULL AS aerialway,
-                NULL AS shipway,
                 NULL AS public_transport,
                 NULL AS service,
                 is_bridge,
@@ -109,9 +99,6 @@ FROM (
                 geometry,
                 highway,
                 construction,
-                NULL AS railway,
-                NULL AS aerialway,
-                NULL AS shipway,
                 NULL AS public_transport,
                 NULL AS service,
                 is_bridge,
@@ -134,9 +121,6 @@ FROM (
                 geometry,
                 highway,
                 construction,
-                NULL AS railway,
-                NULL AS aerialway,
-                NULL AS shipway,
                 NULL AS public_transport,
                 NULL AS service,
                 is_bridge,
@@ -159,9 +143,6 @@ FROM (
                 geometry,
                 highway,
                 construction,
-                NULL AS railway,
-                NULL AS aerialway,
-                NULL AS shipway,
                 NULL AS public_transport,
                 NULL AS service,
                 is_bridge,
@@ -184,9 +165,6 @@ FROM (
                 geometry,
                 highway,
                 construction,
-                NULL AS railway,
-                NULL AS aerialway,
-                NULL AS shipway,
                 NULL AS public_transport,
                 NULL AS service,
                 is_bridge,
@@ -209,9 +187,6 @@ FROM (
                 geometry,
                 highway,
                 construction,
-                NULL AS railway,
-                NULL AS aerialway,
-                NULL AS shipway,
                 NULL AS public_transport,
                 NULL AS service,
                 is_bridge,
@@ -234,9 +209,6 @@ FROM (
                 geometry,
                 highway,
                 construction,
-                NULL AS railway,
-                NULL AS aerialway,
-                NULL AS shipway,
                 NULL AS public_transport,
                 NULL AS service,
                 is_bridge,
@@ -261,9 +233,6 @@ FROM (
                 geometry,
                 highway,
                 construction,
-                NULL AS railway,
-                NULL AS aerialway,
-                NULL AS shipway,
                 public_transport,
                 service_value(service) AS service,
                 is_bridge,
