@@ -21,7 +21,6 @@ CREATE OR REPLACE FUNCTION layer_transportation(bbox geometry, zoom_level int)
                 service   text,
                 layer     int,
                 level     int,
-                indoor    int,
                 surface   text
             )
 AS
@@ -47,7 +46,6 @@ SELECT osm_id,
        NULLIF(service, '') AS service,
        NULLIF(layer, 0) AS layer,
        "level",
-       CASE WHEN indoor = TRUE THEN 1 END AS indoor,
        NULLIF(surface, '') AS surface
 FROM (
          -- etldoc: osm_transportation_merge_linestring_gen_z4 -> layer_transportation:z4
@@ -65,7 +63,6 @@ FROM (
                 NULL AS man_made,
                 NULL::int AS layer,
                 NULL::int AS level,
-                NULL::boolean AS indoor,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z4
@@ -87,7 +84,6 @@ FROM (
                 NULL AS man_made,
                 NULL::int AS layer,
                 NULL::int AS level,
-                NULL::boolean AS indoor,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z5
@@ -109,7 +105,6 @@ FROM (
                 NULL AS man_made,
                 NULL::int AS layer,
                 NULL::int AS level,
-                NULL::boolean AS indoor,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z6
@@ -131,7 +126,6 @@ FROM (
                 NULL AS man_made,
                 NULL::int AS layer,
                 NULL::int AS level,
-                NULL::boolean AS indoor,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z7
@@ -153,7 +147,6 @@ FROM (
                 NULL AS man_made,
                 NULL::int AS layer,
                 NULL::int AS level,
-                NULL::boolean AS indoor,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z8
@@ -175,7 +168,6 @@ FROM (
                 NULL AS man_made,
                 layer,
                 NULL::int AS level,
-                NULL::boolean AS indoor,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z9
@@ -197,7 +189,6 @@ FROM (
                 NULL AS man_made,
                 layer,
                 NULL::int AS level,
-                NULL::boolean AS indoor,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z10
@@ -219,7 +210,6 @@ FROM (
                 NULL AS man_made,
                 layer,
                 NULL::int AS level,
-                NULL::boolean AS indoor,
                 NULL AS surface,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z11
@@ -243,29 +233,19 @@ FROM (
                 man_made,
                 layer,
                 CASE WHEN highway IN ('footway', 'steps') THEN "level" END AS "level",
-                CASE WHEN highway IN ('footway', 'steps') THEN indoor END AS indoor,
                 surface_value(surface) AS "surface",
                 z_order
          FROM osm_highway_linestring
          WHERE NOT is_area
            AND (
-                     zoom_level = 12 AND (
-                             highway_class(highway, public_transport, construction) NOT IN ('track', 'path', 'minor')
+                    zoom_level = 12 AND (
+                            highway_class(highway, public_transport, construction) NOT IN ('track', 'path', 'minor')
                          OR highway IN ('unclassified', 'residential')
-                     ) AND man_made <> 'pier'
+                     )
                  OR zoom_level = 13
-                         AND (
-                                    highway_class(highway, public_transport, construction) NOT IN ('track', 'path') AND
-                                    man_made <> 'pier'
-                            OR
-                                    man_made = 'pier' AND NOT ST_IsClosed(geometry)
-                        )
+                         AND highway_class(highway, public_transport, construction) NOT IN ('track', 'path')
                  OR zoom_level >= 14
-                         AND (
-                            man_made <> 'pier'
-                            OR
-                            NOT ST_IsClosed(geometry)
-                        )
+                         AND NOT ST_IsClosed(geometry)
              )
      ) AS zoom_levels
 WHERE geometry && bbox

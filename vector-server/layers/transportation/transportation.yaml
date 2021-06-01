@@ -34,7 +34,7 @@ layer:
         minor:
           highway: ['unclassified', 'residential', 'living_street', 'road']
         path:
-          highway: ['pedestrian', 'path', 'footway', 'cycleway', 'steps', 'bridleway', 'corridor']
+          highway: ['pedestrian', 'path', 'footway', 'cycleway', 'steps', 'bridleway']
           public_transport: 'platform'
         service:
           highway: service
@@ -68,10 +68,8 @@ layer:
             construction: ['', 'unclassified', 'residential', 'living_street', 'road']
         path_construction:
           __AND__:
-            - highway: construction
-            - __OR__:
-                construction: ['pedestrian', 'path', 'footway', 'cycleway', 'steps', 'bridleway', 'corridor']
-                public_transport: platform
+            highway: construction
+            construction: ['pedestrian', 'path', 'footway', 'cycleway', 'steps', 'bridleway']
         service_construction:
           __AND__:
             highway: construction
@@ -88,26 +86,14 @@ layer:
       description: |
           Distinguish more specific classes of railway and path:
           Subclass is value of the
-          [`railway`](http://wiki.openstreetmap.org/wiki/Key:railway),
           [`highway`](http://wiki.openstreetmap.org/wiki/Key:highway) (for paths), or
-          [`public_transport`](http://wiki.openstreetmap.org/wiki/Key:public_transport) (for platforms) tag.
       values:
-      - rail
-      - narrow_gauge
-      - preserved
-      - funicular
-      - subway
-      - light_rail
-      - monorail
-      - tram
       - pedestrian
       - path
       - footway
       - cycleway
       - steps
       - bridleway
-      - corridor
-      - platform
     brunnel:
       description: |
           Mark whether way is a tunnel or bridge.
@@ -130,10 +116,6 @@ layer:
       description: |
           Original value of the [`service`](http://wiki.openstreetmap.org/wiki/Key:service) tag.
       values:
-      - spur
-      - yard
-      - siding
-      - crossover
       - driveway
       - alley
       - parking_aisle
@@ -144,12 +126,6 @@ layer:
       description: |
           Experimental feature! Filled only for steps and footways. Original
           value of the [`level`](http://wiki.openstreetmap.org/wiki/Key:level) tag.
-    indoor:
-      description: |
-          Experimental feature! Filled only for steps and footways. Original
-          value of the [`indoor`](http://wiki.openstreetmap.org/wiki/Key:indoor) tag.
-      values:
-      - 1
     surface:
       description: |
           Values of [`surface`](https://wiki.openstreetmap.org/wiki/Key:surface) tag devided into 2 groups `paved` (paved, asphalt, cobblestone, concrete, concrete:lanes, concrete:plates, metal, paving_stones, sett, unhewn_cobblestone, wood) and `unpaved` (unpaved, compacted, dirt, earth, fine_gravel, grass, grass_paver, gravel, gravel_turf, ground, ice, mud, pebblestone, salt, sand, snow, woodchips).
@@ -159,7 +135,7 @@ layer:
   datasource:
     geometry_field: geometry
     srid: 900913
-    query: (SELECT geometry, class, subclass, oneway, ramp, brunnel, service, layer, level, indoor, surface FROM layer_transportation(!bbox!, z(!scale_denominator!))) AS t
+    query: (SELECT geometry, class, subclass, oneway, ramp, brunnel, service, layer, level, surface FROM layer_transportation(!bbox!, z(!scale_denominator!))) AS t
 schema:
   - ./class.sql
   - ./update_transportation_merge.sql

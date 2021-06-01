@@ -73,10 +73,6 @@ level_field: &level
   key: level
   name: level
   type: integer
-indoor_field: &indoor
-  key: indoor
-  name: indoor
-  type: bool
 man_made_field: &man_made
   key: man_made
   name: man_made
@@ -110,7 +106,6 @@ tables:
     - *z_order
     - *layer
     - *level
-    - *indoor
     - *name
     - *name_en
     - *name_de
@@ -155,46 +150,6 @@ tables:
       - track
       - raceway
       - construction
-      public_transport:
-      - platform
-      man_made:
-      - pier
-
-# etldoc: imposm3 -> osm_highway_polygon
-  highway_polygon:
-    type: polygon
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - name: highway
-      key: highway
-      type: string
-    - name: z_order
-      type: wayzorder
-    - *layer
-    - *level
-    - *indoor
-    - name: is_area
-      key: area
-      type: bool
-    - *public_transport
-    - *man_made
-    mapping:
-      highway:
-      - path
-      - cycleway
-      - bridleway
-      - footway
-      - corridor
-      - pedestrian
-      - steps
-      public_transport:
-      - platform
-      man_made:
-      - bridge
-      - pier
 
 # TODO: Future table for joining networks
 # etldoc: imposm3 -> osm_route_member
