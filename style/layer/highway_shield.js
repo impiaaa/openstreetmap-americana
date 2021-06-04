@@ -12,7 +12,7 @@ var layerHighwayShieldInterstate = {
   ],
   layout: {
     "icon-size": 2.0,
-    "text-font": ["Open Sans Bold"],
+    "text-font": ["Overpass Bold"],
     "text-size": 10.5,
     "text-anchor": "center",
     "text-field": "{ref}",

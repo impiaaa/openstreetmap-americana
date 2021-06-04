@@ -64,7 +64,7 @@ var layerMotorwayLabel = {
   },
   filter: ["all", ["==", "class", "motorway"]],
   layout: {
-    "text-font": ["Metropolis Light"],
+    "text-font": ["Overpass Light"],
     "text-size": 12,
     "text-field": "{name:latin} {name:nonlatin}",
     "text-anchor": "bottom",
