@@ -11,7 +11,7 @@ var layerHighwayShieldInterstate12 = {
     ["in", "network", "us-interstate"],
   ],
   layout: {
-    "icon-size": 5.0,
+    "icon-size": 2.0,
     "text-font": ["Open Sans Bold"],
     "text-anchor": "center",
     "text-offset": [0, 0.08],
@@ -59,7 +59,7 @@ var layerHighwayShieldInterstate3 = {
     ["in", "network", "us-interstate"],
   ],
   layout: {
-    "icon-size": 5.0,
+    "icon-size": 2.0,
     "text-font": ["Open Sans Bold"],
     "text-anchor": "center",
     "text-offset": [0, 0.08],
@@ -106,7 +106,7 @@ var layerHighwayShieldInterstate4 = {
     ["in", "network", "us-interstate"],
   ],
   layout: {
-    "icon-size": 5.0,
+    "icon-size": 2.0,
     "text-font": ["Open Sans Semibold"],
     "text-size": 18,
     "text-anchor": "center",

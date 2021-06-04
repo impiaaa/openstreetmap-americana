@@ -8,12 +8,12 @@ done
 for i in $( ls build/rebusurance-v1.0.0/image2d/ | grep [A-Z] );
 do
   #Remove text placeholder from shields
-  sed -i 's/<text.*\/text>//g' "build/rebusurance-v1.0.0/image2d/$i"
-
+  sed -e 's/<text.*\/text>//g' "build/rebusurance-v1.0.0/image2d/$i" | \
+  \
   #Scale shields to a reasonable size for rasterization
-  sed -i 's/transform=""/transform="scale(0.35,0.35)"/g' "build/rebusurance-v1.0.0/image2d/$i"
-
-  cp "build/rebusurance-v1.0.0/image2d/$i" icons/us_`echo "$i" | tr 'A-Z' 'a-z'`
+  xmlstarlet sel -N x=http://www.w3.org/2000/svg -I -D -t -e svg -c "//x:svg/@*" -a "width" -o 90 --break -a "height" -o 45 --break -e g -a "transform" -o "scale(0.35,0.35)" --break -c "//x:svg/*" \
+  \
+  > icons/us_`echo "$i" | tr 'A-Z' 'a-z'`
 done
 
 
