@@ -32,4 +32,10 @@ var americanaLayers = [
   layerHighwayShieldInterstate12,
   layerHighwayShieldInterstate3,
   layerHighwayShieldInterstate4,
+
+  layerAerodrome,
+  layerBusStation,
+  layerTrainStation,
+  layerLibrary,
+  layerLightRailStation,
 ];
